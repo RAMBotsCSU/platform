@@ -1,0 +1,1 @@
+ACTION=="add", SUBSYSTEM=="input", ATTRS{id/product}=="09cc", ATTRS{id/vendor}=="054c", RUN+="/bin/chmod -R 777 /sys/class/input/js0/device/device/leds/"
