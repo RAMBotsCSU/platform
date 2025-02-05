@@ -1,8 +1,17 @@
+import sys
+import os
+
+# Ensure the parent directory is in sys.path so that the 'robot' package is found.
+current_dir = os.path.dirname(os.path.abspath(__file__))
+parent_dir = os.path.dirname(current_dir)
+if parent_dir not in sys.path:
+    sys.path.insert(0, parent_dir)
+
 import unittest
 import logging
 from unittest.mock import patch
 
-# Set up a logger for our tests.
+# --- Logging Setup ---
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger("TestAudioManager")
 
@@ -21,30 +30,25 @@ class DummySound:
         self.volume = volume
         logger.info(f"DummySound: Setting volume for '{self.filename}' to {volume}.")
 
-# When AudioManager calls pygame.mixer.Sound(filename),
-# this function returns a DummySound instance.
+# Function that returns a DummySound when pygame.mixer.Sound is called.
 def dummy_sound_constructor(filename):
     return DummySound(filename)
 
 # --- Test Cases for AudioManager ---
-# We patch pygame.mixer.init (so it does nothing) and pygame.mixer.Sound (to return DummySound).
+# Patch the mixer initialization and Sound creation.
 @patch('pygame.mixer.init')
 @patch('pygame.mixer.Sound', side_effect=dummy_sound_constructor)
 class TestAudioManager(unittest.TestCase):
     
-    def setUp(self, mock_sound, mock_init):
+    def setUp(self, *args, **kwargs):
         logger.info("Setting up AudioManager instance for tests.")
-        # Import the AudioManager from your module. Adjust the import as needed.
-        from audio_manager import AudioManager
+        from robot.audio_manager import AudioManager  # Adjusted import with sys.path set up above.
         self.audio_manager = AudioManager()
 
     def test_play_sound_valid(self, mock_sound, mock_init):
         logger.info("Test: play_sound with a valid key 'startup1'.")
-        # Reset the flag.
         self.audio_manager.audio_dict["startup1"].play_called = False
-        # Call the method.
         self.audio_manager.play_sound("startup1")
-        # Check that the DummySound.play() was called.
         self.assertTrue(
             self.audio_manager.audio_dict["startup1"].play_called,
             "The 'startup1' sound should have been played."
@@ -52,12 +56,9 @@ class TestAudioManager(unittest.TestCase):
 
     def test_play_sound_invalid(self, mock_sound, mock_init):
         logger.info("Test: play_sound with an invalid key (should not play any sound).")
-        # Reset all dummy flags.
         for sound in self.audio_manager.audio_dict.values():
             sound.play_called = False
-        # Call play_sound with a key that does not exist.
         self.audio_manager.play_sound("non_existent_sound")
-        # Verify that none of the sounds had play() called.
         for key, sound in self.audio_manager.audio_dict.items():
             self.assertFalse(
                 sound.play_called,
@@ -66,7 +67,6 @@ class TestAudioManager(unittest.TestCase):
 
     def test_play_mode_sounds(self, mock_sound, mock_init):
         logger.info("Test: play_mode_sounds for each mode.")
-        # Mapping from mode number to expected sound key.
         mode_mapping = {
             0: "walkMode",
             1: "pushUpsMode",
@@ -76,7 +76,6 @@ class TestAudioManager(unittest.TestCase):
             5: "danceMode"
         }
         for mode, expected_sound in mode_mapping.items():
-            # Reset flag for the expected sound.
             self.audio_manager.audio_dict[expected_sound].play_called = False
             logger.info(f"  Testing mode {mode} (expecting '{expected_sound}').")
             self.audio_manager.play_mode_sounds(mode)
@@ -87,14 +86,10 @@ class TestAudioManager(unittest.TestCase):
 
     def test_play_songs_random(self, mock_sound, mock_init):
         logger.info("Test: play_songs with -1 (should play one random song).")
-        # List of song keys.
         song_keys = ["song1", "song2", "song3", "song4"]
-        # Reset play_called for all songs.
         for key in song_keys:
             self.audio_manager.audio_dict[key].play_called = False
-        # Call the method with -1 (random song).
         self.audio_manager.play_songs(-1)
-        # Determine which song was “played.”
         played = [key for key in song_keys if self.audio_manager.audio_dict[key].play_called]
         logger.info(f"  Random song played: {played}")
         self.assertEqual(
@@ -104,7 +99,6 @@ class TestAudioManager(unittest.TestCase):
 
     def test_play_songs_specific(self, mock_sound, mock_init):
         logger.info("Test: play_songs with a specific song number (e.g., 2).")
-        # Reset flag for a specific song.
         self.audio_manager.audio_dict["song2"].play_called = False
         self.audio_manager.play_songs(2)
         self.assertTrue(
