@@ -33,7 +33,7 @@ class TestMode(unittest.TestCase):
     @patch('robot.mode.Mode.start', new_callable=AsyncMock)
     def test_stop(self, mock_start, mock_CancelledError, mock_all_tasks):
         # Arrange
-        mock_robot = MagicMock()  # Mock Sparky robot
+        mock_robot = MagicMock()  # Mock Sparky
         mock_mode = Mode(mock_robot)
         mock_task = MagicMock()  # Create a mock task
         mock_mode.loop = MagicMock()  # Mock the loop
@@ -52,7 +52,7 @@ class TestMode(unittest.TestCase):
     @patch('robot.mode.Mode.start', new_callable=AsyncMock)
     def test_start(self, mock_start):
         # Arrange
-        mock_robot = MagicMock()  # Mock Sparky robot
+        mock_robot = MagicMock()  # Mock Sparky 
         mock_mode = Mode(mock_robot)
 
         # Act

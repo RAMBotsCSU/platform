@@ -29,3 +29,4 @@ class ManualMode(Mode):
 
 async def setup(robot: Sparky):
     return ManualMode(robot)
+
