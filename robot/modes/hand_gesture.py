@@ -95,8 +95,8 @@ def run_hand_gesture():
 
     # Change these based on desired model to use
 
-    MODEL_FILE = "../../Resources/hand_command_uint8_v2.tflite"
-    LABELS_FILE = "labels.txt"
+    MODEL_FILE = "../../Resources/ai_models/hand_command_uint8_v2.tflite"
+    LABELS_FILE = "../../Resources/labels.txt"
 
     # Load model and labels
     interpreter = load_model(MODEL_FILE)
