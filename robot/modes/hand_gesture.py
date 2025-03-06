@@ -112,8 +112,9 @@ class HandGestureMode(Mode):
         try:
             while True:
 
-                start_time = time.time()
+                start_time = time.time() # only used to see how long inference takes
                 ret, frame = self.cap.read()
+
                 if not ret:
                     logging.error("Error: Unable to read from the camera.")
                     break
@@ -123,7 +124,7 @@ class HandGestureMode(Mode):
                 input_tensor = self.preprocess_frame(frame)
                 classes = self.run_inference(input_tensor)
 
-                # Default movement values
+                # movement values
                 rfb, rlr, lfb, llr, rt, lt = 0, 0, 0, 0, 0, 0
 
                 if classes:
@@ -163,8 +164,7 @@ class HandGestureMode(Mode):
                 # rt = self.smooth_move(rt, target_rt)
                 # lt = self.smooth_move(lt, target_lt)
 
-                
-                    
+            
                 frame = self.display_results(frame, classes, self.labels)
 
                 await self.robot.move(rfb, rlr, lfb, llr, rt, lt)
