@@ -35,7 +35,7 @@ class TestMotion(unittest.TestCase):
         loop = asyncio.get_event_loop()
         task = loop.create_task(self.motion.run())
 
-        # Allow the run method to execute for a short while
+        # Allow the run method to execute for a lttle
         loop.run_until_complete(asyncio.sleep(0.1))
 
         # Assert that the serial write and read functions were called

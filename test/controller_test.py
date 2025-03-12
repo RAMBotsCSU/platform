@@ -2,7 +2,7 @@ import unittest
 from unittest.mock import AsyncMock, MagicMock, patch
 from pathlib import Path
 from evdev import InputEvent, ecodes
-from controller import Controller, ControllerLED  # Assuming your file is named controller.py
+from robot.controller import Controller, ControllerLED  # Assuming your file is named controller.py
 
 
 class TestControllerLED(unittest.IsolatedAsyncioTestCase):
