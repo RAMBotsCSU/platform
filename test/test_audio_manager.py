@@ -83,7 +83,7 @@ class TestAudioManager(unittest.TestCase):
                 self.audio_manager.audio_dict[expected_sound].play_called,
                 f"Sound '{expected_sound}' should have been played for mode {mode}."
             )
-
+    #Play a random song
     def test_play_songs_random(self, mock_sound, mock_init):
         logger.info("Test: play_songs with -1 (should play one random song).")
         song_keys = ["song1", "song2", "song3", "song4"]
@@ -97,6 +97,7 @@ class TestAudioManager(unittest.TestCase):
             "Exactly one random song should have been played when song parameter is -1."
         )
 
+    # Play a specific song
     def test_play_songs_specific(self, mock_sound, mock_init):
         logger.info("Test: play_songs with a specific song number (e.g., 2).")
         self.audio_manager.audio_dict["song2"].play_called = False
