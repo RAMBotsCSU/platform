@@ -26,189 +26,111 @@ class Remote(object):
         self._tab = flatbuffers.table.Table(buf, pos)
 
     # Remote
-    def MenuDown(self):
+    def Enabled(self):
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(4))
-        if o != 0:
-            return self._tab.Get(flatbuffers.number_types.Int16Flags, o + self._tab.Pos)
-        return 0
-
-    # Remote
-    def Select(self):
-        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(6))
-        if o != 0:
-            return self._tab.Get(flatbuffers.number_types.Int16Flags, o + self._tab.Pos)
-        return 0
-
-    # Remote
-    def MenuUp(self):
-        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(8))
-        if o != 0:
-            return self._tab.Get(flatbuffers.number_types.Int16Flags, o + self._tab.Pos)
-        return 0
-
-    # Remote
-    def ToggleBottom(self):
-        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(10))
-        if o != 0:
-            return bool(self._tab.Get(flatbuffers.number_types.BoolFlags, o + self._tab.Pos))
-        return False
-
-    # Remote
-    def ToggleTop(self):
-        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(12))
-        if o != 0:
-            return bool(self._tab.Get(flatbuffers.number_types.BoolFlags, o + self._tab.Pos))
-        return False
-
-    # Remote
-    def Toggle1(self):
-        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(14))
-        if o != 0:
-            return bool(self._tab.Get(flatbuffers.number_types.BoolFlags, o + self._tab.Pos))
-        return False
-
-    # Remote
-    def Toggle2(self):
-        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(16))
         if o != 0:
             return bool(self._tab.Get(flatbuffers.number_types.BoolFlags, o + self._tab.Pos))
         return False
 
     # Remote
     def Mode(self):
-        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(18))
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(6))
         if o != 0:
             return self._tab.Get(flatbuffers.number_types.Int8Flags, o + self._tab.Pos)
         return 0
 
     # Remote
     def Rlr(self):
-        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(20))
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(8))
         if o != 0:
             return self._tab.Get(flatbuffers.number_types.Int8Flags, o + self._tab.Pos)
         return 0
 
     # Remote
     def Rfb(self):
-        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(22))
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(10))
         if o != 0:
             return self._tab.Get(flatbuffers.number_types.Int8Flags, o + self._tab.Pos)
         return 0
 
     # Remote
     def Rt(self):
-        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(24))
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(12))
         if o != 0:
             return self._tab.Get(flatbuffers.number_types.Uint8Flags, o + self._tab.Pos)
         return 0
 
     # Remote
     def Llr(self):
-        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(26))
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(14))
         if o != 0:
             return self._tab.Get(flatbuffers.number_types.Int8Flags, o + self._tab.Pos)
         return 0
 
     # Remote
     def Lfb(self):
-        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(28))
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(16))
         if o != 0:
             return self._tab.Get(flatbuffers.number_types.Int8Flags, o + self._tab.Pos)
         return 0
 
     # Remote
     def Lt(self):
-        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(30))
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(18))
         if o != 0:
             return self._tab.Get(flatbuffers.number_types.Uint8Flags, o + self._tab.Pos)
         return 0
 
 def RemoteStart(builder: flatbuffers.Builder):
-    builder.StartObject(14)
+    builder.StartObject(8)
 
 def Start(builder: flatbuffers.Builder):
     RemoteStart(builder)
 
-def RemoteAddMenuDown(builder: flatbuffers.Builder, menuDown: int):
-    builder.PrependInt16Slot(0, menuDown, 0)
+def RemoteAddEnabled(builder: flatbuffers.Builder, enabled: bool):
+    builder.PrependBoolSlot(0, enabled, 0)
 
-def AddMenuDown(builder: flatbuffers.Builder, menuDown: int):
-    RemoteAddMenuDown(builder, menuDown)
-
-def RemoteAddSelect(builder: flatbuffers.Builder, select: int):
-    builder.PrependInt16Slot(1, select, 0)
-
-def AddSelect(builder: flatbuffers.Builder, select: int):
-    RemoteAddSelect(builder, select)
-
-def RemoteAddMenuUp(builder: flatbuffers.Builder, menuUp: int):
-    builder.PrependInt16Slot(2, menuUp, 0)
-
-def AddMenuUp(builder: flatbuffers.Builder, menuUp: int):
-    RemoteAddMenuUp(builder, menuUp)
-
-def RemoteAddToggleBottom(builder: flatbuffers.Builder, toggleBottom: bool):
-    builder.PrependBoolSlot(3, toggleBottom, 0)
-
-def AddToggleBottom(builder: flatbuffers.Builder, toggleBottom: bool):
-    RemoteAddToggleBottom(builder, toggleBottom)
-
-def RemoteAddToggleTop(builder: flatbuffers.Builder, toggleTop: bool):
-    builder.PrependBoolSlot(4, toggleTop, 0)
-
-def AddToggleTop(builder: flatbuffers.Builder, toggleTop: bool):
-    RemoteAddToggleTop(builder, toggleTop)
-
-def RemoteAddToggle1(builder: flatbuffers.Builder, toggle1: bool):
-    builder.PrependBoolSlot(5, toggle1, 0)
-
-def AddToggle1(builder: flatbuffers.Builder, toggle1: bool):
-    RemoteAddToggle1(builder, toggle1)
-
-def RemoteAddToggle2(builder: flatbuffers.Builder, toggle2: bool):
-    builder.PrependBoolSlot(6, toggle2, 0)
-
-def AddToggle2(builder: flatbuffers.Builder, toggle2: bool):
-    RemoteAddToggle2(builder, toggle2)
+def AddEnabled(builder: flatbuffers.Builder, enabled: bool):
+    RemoteAddEnabled(builder, enabled)
 
 def RemoteAddMode(builder: flatbuffers.Builder, mode: int):
-    builder.PrependInt8Slot(7, mode, 0)
+    builder.PrependInt8Slot(1, mode, 0)
 
 def AddMode(builder: flatbuffers.Builder, mode: int):
     RemoteAddMode(builder, mode)
 
 def RemoteAddRlr(builder: flatbuffers.Builder, rlr: int):
-    builder.PrependInt8Slot(8, rlr, 0)
+    builder.PrependInt8Slot(2, rlr, 0)
 
 def AddRlr(builder: flatbuffers.Builder, rlr: int):
     RemoteAddRlr(builder, rlr)
 
 def RemoteAddRfb(builder: flatbuffers.Builder, rfb: int):
-    builder.PrependInt8Slot(9, rfb, 0)
+    builder.PrependInt8Slot(3, rfb, 0)
 
 def AddRfb(builder: flatbuffers.Builder, rfb: int):
     RemoteAddRfb(builder, rfb)
 
 def RemoteAddRt(builder: flatbuffers.Builder, rt: int):
-    builder.PrependUint8Slot(10, rt, 0)
+    builder.PrependUint8Slot(4, rt, 0)
 
 def AddRt(builder: flatbuffers.Builder, rt: int):
     RemoteAddRt(builder, rt)
 
 def RemoteAddLlr(builder: flatbuffers.Builder, llr: int):
-    builder.PrependInt8Slot(11, llr, 0)
+    builder.PrependInt8Slot(5, llr, 0)
 
 def AddLlr(builder: flatbuffers.Builder, llr: int):
     RemoteAddLlr(builder, llr)
 
 def RemoteAddLfb(builder: flatbuffers.Builder, lfb: int):
-    builder.PrependInt8Slot(12, lfb, 0)
+    builder.PrependInt8Slot(6, lfb, 0)
 
 def AddLfb(builder: flatbuffers.Builder, lfb: int):
     RemoteAddLfb(builder, lfb)
 
 def RemoteAddLt(builder: flatbuffers.Builder, lt: int):
-    builder.PrependUint8Slot(13, lt, 0)
+    builder.PrependUint8Slot(7, lt, 0)
 
 def AddLt(builder: flatbuffers.Builder, lt: int):
     RemoteAddLt(builder, lt)
