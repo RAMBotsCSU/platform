@@ -36,7 +36,7 @@ class Sparky:
 
                 spec.loader.exec_module(lib)
                 setup = getattr(lib, 'setup')
-                self.mode = setup(self)
+                self.mode = await setup(self)
 
                 # start the mode subroutine
                 self._executor.submit(self.mode.run)
