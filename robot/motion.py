@@ -85,13 +85,7 @@ class Motion:
                 builder = flatbuffers.Builder(1024)
 
                 Remote.Start(builder)
-                Remote.AddMenuDown(builder, 1)
-                Remote.AddSelect(builder, 2)
-                Remote.AddMenuUp(builder, 3)
-                Remote.AddToggleBottom(builder, self.toggle_bottom)
-                Remote.AddToggleTop(builder, self.toggle_top)
-                Remote.AddToggle1(builder, False)
-                Remote.AddToggle2(builder, False)
+                Remote.AddEnabled(builder, self.robot.enabled)
                 Remote.AddMode(builder, 6)
                 Remote.AddRlr(builder, self.rlr)
                 Remote.AddRfb(builder, self.rfb)
@@ -111,7 +105,7 @@ class Motion:
                 buf = builder.Output()
 
                 try:
-                    await self.serial.write_async(buf + b'\n')
+                    await self.serial.write_async(buf)
 
                     ret = await self.serial.read_until_async(expected=aioserial.LF, size=None)
                 except aioserial.SerialException:
