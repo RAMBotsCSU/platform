@@ -8,6 +8,7 @@ if TYPE_CHECKING:
     from .sparky import Sparky
 
 class Mode:
+    MODE_ID = -1
     loop: asyncio.AbstractEventLoop
 
     def __init__(self, robot: Sparky) -> None:

@@ -81,8 +81,64 @@ class Remote(object):
             return self._tab.Get(flatbuffers.number_types.Uint8Flags, o + self._tab.Pos)
         return 0
 
+    # Remote
+    def DpadU(self):
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(20))
+        if o != 0:
+            return bool(self._tab.Get(flatbuffers.number_types.BoolFlags, o + self._tab.Pos))
+        return False
+
+    # Remote
+    def DpadD(self):
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(22))
+        if o != 0:
+            return bool(self._tab.Get(flatbuffers.number_types.BoolFlags, o + self._tab.Pos))
+        return False
+
+    # Remote
+    def DpadL(self):
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(24))
+        if o != 0:
+            return bool(self._tab.Get(flatbuffers.number_types.BoolFlags, o + self._tab.Pos))
+        return False
+
+    # Remote
+    def DpadR(self):
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(26))
+        if o != 0:
+            return bool(self._tab.Get(flatbuffers.number_types.BoolFlags, o + self._tab.Pos))
+        return False
+
+    # Remote
+    def Triangle(self):
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(28))
+        if o != 0:
+            return bool(self._tab.Get(flatbuffers.number_types.BoolFlags, o + self._tab.Pos))
+        return False
+
+    # Remote
+    def Cross(self):
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(30))
+        if o != 0:
+            return bool(self._tab.Get(flatbuffers.number_types.BoolFlags, o + self._tab.Pos))
+        return False
+
+    # Remote
+    def Square(self):
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(32))
+        if o != 0:
+            return bool(self._tab.Get(flatbuffers.number_types.BoolFlags, o + self._tab.Pos))
+        return False
+
+    # Remote
+    def Circle(self):
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(34))
+        if o != 0:
+            return bool(self._tab.Get(flatbuffers.number_types.BoolFlags, o + self._tab.Pos))
+        return False
+
 def RemoteStart(builder: flatbuffers.Builder):
-    builder.StartObject(8)
+    builder.StartObject(16)
 
 def Start(builder: flatbuffers.Builder):
     RemoteStart(builder)
@@ -134,6 +190,54 @@ def RemoteAddLt(builder: flatbuffers.Builder, lt: int):
 
 def AddLt(builder: flatbuffers.Builder, lt: int):
     RemoteAddLt(builder, lt)
+
+def RemoteAddDpadU(builder: flatbuffers.Builder, dpadU: bool):
+    builder.PrependBoolSlot(8, dpadU, 0)
+
+def AddDpadU(builder: flatbuffers.Builder, dpadU: bool):
+    RemoteAddDpadU(builder, dpadU)
+
+def RemoteAddDpadD(builder: flatbuffers.Builder, dpadD: bool):
+    builder.PrependBoolSlot(9, dpadD, 0)
+
+def AddDpadD(builder: flatbuffers.Builder, dpadD: bool):
+    RemoteAddDpadD(builder, dpadD)
+
+def RemoteAddDpadL(builder: flatbuffers.Builder, dpadL: bool):
+    builder.PrependBoolSlot(10, dpadL, 0)
+
+def AddDpadL(builder: flatbuffers.Builder, dpadL: bool):
+    RemoteAddDpadL(builder, dpadL)
+
+def RemoteAddDpadR(builder: flatbuffers.Builder, dpadR: bool):
+    builder.PrependBoolSlot(11, dpadR, 0)
+
+def AddDpadR(builder: flatbuffers.Builder, dpadR: bool):
+    RemoteAddDpadR(builder, dpadR)
+
+def RemoteAddTriangle(builder: flatbuffers.Builder, triangle: bool):
+    builder.PrependBoolSlot(12, triangle, 0)
+
+def AddTriangle(builder: flatbuffers.Builder, triangle: bool):
+    RemoteAddTriangle(builder, triangle)
+
+def RemoteAddCross(builder: flatbuffers.Builder, cross: bool):
+    builder.PrependBoolSlot(13, cross, 0)
+
+def AddCross(builder: flatbuffers.Builder, cross: bool):
+    RemoteAddCross(builder, cross)
+
+def RemoteAddSquare(builder: flatbuffers.Builder, square: bool):
+    builder.PrependBoolSlot(14, square, 0)
+
+def AddSquare(builder: flatbuffers.Builder, square: bool):
+    RemoteAddSquare(builder, square)
+
+def RemoteAddCircle(builder: flatbuffers.Builder, circle: bool):
+    builder.PrependBoolSlot(15, circle, 0)
+
+def AddCircle(builder: flatbuffers.Builder, circle: bool):
+    RemoteAddCircle(builder, circle)
 
 def RemoteEnd(builder: flatbuffers.Builder) -> int:
     return builder.EndObject()
