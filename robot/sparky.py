@@ -7,13 +7,15 @@ from concurrent.futures import ThreadPoolExecutor
 
 
 from .ui import MainWindow
+from .mode import Mode
 from .motion import Motion
 from .controller import Controller
 
 
 class Sparky:
     enabled: bool = False
-    mode = None
+    mode: Mode = None
+    selected_mode_name: str
 
     def __init__(self) -> None:
         self._executor = ThreadPoolExecutor(max_workers=3)
@@ -27,10 +29,10 @@ class Sparky:
     async def set_enabled(self, en: bool):
         if en:
             try:
-                current_mode = "manual" # TODO: dynmically change this with buttons in the UI
+                print(f"Starting mode '{self.selected_mode_name}'")
 
-                # dynamically load th emode at runtime
-                name = importlib.util.resolve_name(f"robot.modes.{current_mode}", None)
+                # dynamically load the mode at runtime
+                name = importlib.util.resolve_name(f"robot.modes.{self.selected_mode_name}", None)
                 spec = importlib.util.find_spec(name)
                 lib = importlib.util.module_from_spec(spec)
 
@@ -77,8 +79,8 @@ class Sparky:
             await asyncio.sleep(next_change_in)
 
 
-    async def move(self, rfb, rlr, lfb, llr, rt, lt):
-        self.motion.move(rfb, rlr, lfb, llr, rt, lt)
+    async def move(self, *args, **kwargs):
+        self.motion.move(*args, **kwargs)
 
     async def run(self):
         self.ui = MainWindow.start(self)

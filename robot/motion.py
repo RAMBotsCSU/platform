@@ -24,8 +24,15 @@ class Motion:
     rt = 0 # Right Trigger
     lt = 0 # Left Trigger
 
-    toggle_bottom = False # use IMU
-    toggle_top = False # Enable
+    dpad_u = False
+    dpad_d = False
+    dpad_l = False
+    dpad_r = False
+
+    triangle = False
+    cross = False
+    square = False
+    circle = False
 
     def __init__(self, robot: Sparky) -> None:
         self.robot = robot
@@ -40,6 +47,7 @@ class Motion:
         while True:
             try:
                 self._connect()
+                print("Connected.")
                 return
 
             except Exception as e:
@@ -50,15 +58,13 @@ class Motion:
 
     def _find_serial_dev(self):
         for port in list_ports.comports():
-            print(vars(port))
-
             if port.manufacturer == 'Teensyduino':
                 return port.device
 
         raise Exception("Could not connect to motion controller")
 
-    def move(self, rfb, rlr, lfb, llr, rt, lt):
-        # TODO: implement some sort of timeout if this isnt colled often enough
+    def move(self, rfb, rlr, lfb, llr, rt, lt, dpad_u, dpad_d, dpad_l, dpad_r, triangle, cross, square, circle):
+        # TODO: implement some sort of timeout if this isnt called often enough
 
         self.rfb = rfb
         self.rlr = rlr
@@ -67,7 +73,15 @@ class Motion:
         self.rt = rt
         self.lt = lt
 
-        self.toggle_top = True
+        self.dpad_u = dpad_u
+        self.dpad_d = dpad_d
+        self.dpad_l = dpad_l
+        self.dpad_r = dpad_r
+
+        self.triangle = triangle
+        self.cross = cross
+        self.square = square
+        self.circle = circle
 
     def stop(self):
         self.rfb = 0
@@ -77,7 +91,15 @@ class Motion:
         self.rt = 0
         self.lt = 0
 
-        self.toggle_top = False
+        self.dpad_u = False
+        self.dpad_d = False
+        self.dpad_l = False
+        self.dpad_r = False
+
+        self.triangle = False
+        self.cross = False
+        self.square = False
+        self.circle = False
 
     async def run(self):
         try:
@@ -85,14 +107,27 @@ class Motion:
                 builder = flatbuffers.Builder(1024)
 
                 Remote.Start(builder)
-                Remote.AddEnabled(builder, self.robot.enabled)
-                Remote.AddMode(builder, 6)
-                Remote.AddRlr(builder, self.rlr)
-                Remote.AddRfb(builder, self.rfb)
-                Remote.AddRt(builder, self.rt)
-                Remote.AddLlr(builder, self.llr)
-                Remote.AddLfb(builder, self.lfb)
-                Remote.AddLt(builder, self.lt)
+
+                Remote.RemoteAddEnabled(builder, self.robot.enabled)
+                Remote.RemoteAddMode(builder, self.robot.mode.MODE_ID if self.robot.mode else 0)
+
+                Remote.RemoteAddRlr(builder, self.rlr)
+                Remote.RemoteAddRfb(builder, self.rfb)
+                Remote.RemoteAddRt(builder, self.rt)
+                Remote.RemoteAddLlr(builder, self.llr)
+                Remote.RemoteAddLfb(builder, self.lfb)
+                Remote.RemoteAddLt(builder, self.lt)
+
+                Remote.RemoteAddDpadU(builder, self.dpad_u)
+                Remote.RemoteAddDpadD(builder, self.dpad_d)
+                Remote.RemoteAddDpadL(builder, self.dpad_l)
+                Remote.RemoteAddDpadR(builder, self.dpad_r)
+
+                Remote.RemoteAddTriangle(builder, self.triangle)
+                Remote.RemoteAddCross(builder, self.cross)
+                Remote.RemoteAddSquare(builder, self.square)
+                Remote.RemoteAddCircle(builder, self.circle)
+
                 remote = Remote.End(builder)
 
                 Message.Start(builder)
