@@ -11,8 +11,10 @@ aiofiles = "*"
 aiopath = "*"
 flatbuffers = "*"
 aioserial = "*"
+odrive = "*"
 
 [dev-packages]
+matplotlib = "*"
 
 [requires]
 python_version = "3.12"

@@ -7,10 +7,11 @@ from typing import TYPE_CHECKING, Self, Coroutine
 import aioserial
 
 from serial.tools import list_ports
-# print(list())
+
+from odrive.enums import AxisError
 
 import flatbuffers
-from MotionProtocol import Message, MessageType, Remote
+from MotionProtocol import Message, MessageType, Remote, ODriveStatus
 
 if TYPE_CHECKING:
     from .sparky import Sparky
@@ -148,7 +149,15 @@ class Motion:
                     await self.reconnect()
                     continue
 
-                if not ret:
+                if ret:
+                    try:
+                        status = ODriveStatus.ODriveStatus.GetRootAsODriveStatus(ret[:-1], 0)
+                        print(f"Connected: 1: {status.Connected0()}, 2: {status.Connected1()}, 3: {status.Connected2()}, 4: {status.Connected3()}, 5: {status.Connected4()}, 6: {status.Connected5()}")
+                        print(f"Errors:\n    00: {status.Error00()}, 01: {status.Error01()}\n    10: {status.Error10()}, 11: {status.Error11()}\n    20: {status.Error20()}, 21: {status.Error21()}\n    30: {status.Error30()}, 31: {status.Error31()}\n    40: {status.Error40()}, 41: {status.Error41()}\n    50: {status.Error50()}, 51: {status.Error51()}")
+                    except Exception as e:
+                        print(f"ugh {e}", print(ret))
+                        pass
+                else:
                     print("Motion controller did not respond")
 
                 await asyncio.sleep(0.1)
