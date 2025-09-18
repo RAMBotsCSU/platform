@@ -95,6 +95,9 @@ class Controller:
             # Print the name to see the device names
             print(f"Checking device: {device.name} - {device.info} - {device.path}")
 
+            if "Motion" in device.name or "Touchpad" in device.name:
+                continue  # for some reason it links to sub devices like the touchpad, so stop that
+
             # Check if this device is a PS4 controller by name
             if "Sony" in device.name or "Wireless Controller" in device.name:
                 print(f"PS4 controller found: {device.name} at {device.path}")
