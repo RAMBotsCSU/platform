@@ -1612,7 +1612,7 @@
     <widget class="QPushButton" name="mode_pushup">
      <property name="geometry">
       <rect>
-       <x>180</x>
+       <x>220</x>
        <y>30</y>
        <width>141</width>
        <height>91</height>
@@ -1773,7 +1773,7 @@
     <widget class="QPushButton" name="mode_dance">
      <property name="geometry">
       <rect>
-       <x>350</x>
+       <x>420</x>
        <y>30</y>
        <width>141</width>
        <height>91</height>
@@ -1931,10 +1931,10 @@
       <bool>true</bool>
      </property>
     </widget>
-    <widget class="QPushButton" name="mode_dance_2">
+    <widget class="QPushButton" name="mode_legTesting">
      <property name="geometry">
       <rect>
-       <x>530</x>
+       <x>620</x>
        <y>30</y>
        <width>141</width>
        <height>91</height>
