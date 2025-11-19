@@ -13,7 +13,7 @@ from pycoral.adapters import common, classify
 class Gesture:
     STOP = 0
     PUSH_DOWN = 1
-    PUSH_UP = 2
+    SIT = 2
     WALK_FORWARD = 3
     WALK_BACKWARD = 4
 
@@ -33,7 +33,7 @@ class GestureEngine:
         labels_path: str,
         camera_index: int = 0,
         history_len: int = 3,
-        score_threshold: float = 0.0,
+        score_threshold: float = 0.80,
     ) -> None:
         self.logger = logging.getLogger(__name__)
 
@@ -63,7 +63,7 @@ class GestureEngine:
         self.label_to_gesture = {
             "stop": Gesture.STOP,
             "fist": Gesture.PUSH_DOWN,
-            "palm": Gesture.PUSH_UP,
+            "palm": Gesture.SIT,
             "peace_inverted": Gesture.WALK_FORWARD,
             "one": Gesture.WALK_BACKWARD,
         }
