@@ -16,7 +16,7 @@ class GestureMode(Mode):
       - STOP          -> stand still (home position)
       - WALK_FORWARD  -> walk forward
       - WALK_BACKWARD -> walk backward
-      - PUSH_UP       -> triangle button (if Teensy is in push-up mode)
+      - SIT           -> triangle button (if Teensy is in push-up mode)
       - PUSH_DOWN     -> cross button (if Teensy is in push-up mode)
     """
 
@@ -63,7 +63,7 @@ class GestureMode(Mode):
                         # Right stick down: backward
                         rfb = -128
 
-                    elif gesture == Gesture.PUSH_UP:
+                    elif gesture == Gesture.SIT:
                         # Triangle press
                         triangle = 1
 
