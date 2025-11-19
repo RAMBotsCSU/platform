@@ -26,8 +26,8 @@ class GestureMode(Mode):
         super().__init__(robot)
 
         self.engine = GestureEngine(
-            model_path="edgetpu_mobilenet_4.tflite",
-            labels_path="labels.txt",
+            model_path="./ML/edgetpu_mobilenet_4.tflite",
+            labels_path="./ML/labels.txt",
             camera_index=0,
         )
 

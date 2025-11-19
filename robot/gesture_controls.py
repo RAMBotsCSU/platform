@@ -61,11 +61,11 @@ class GestureEngine:
         # Map label string -> Gesture enum
         # Adjust keys here to match your labels.txt
         self.label_to_gesture = {
-            "closed_palm": Gesture.STOP,
-            "closed_fist": Gesture.PUSH_DOWN,
-            "open_palm": Gesture.PUSH_UP,
+            "stop": Gesture.STOP,
+            "fist": Gesture.PUSH_DOWN,
+            "palm": Gesture.PUSH_UP,
             "peace_inverted": Gesture.WALK_FORWARD,
-            "one_finger": Gesture.WALK_BACKWARD,
+            "one": Gesture.WALK_BACKWARD,
         }
 
         self.logger.info(
