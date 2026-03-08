@@ -19,7 +19,7 @@ tldr:
 curl -fsSL https://pyenv.run | bash
 
 # Install pipenv
-pip install pipenv
+pip install pipenv --break-system-packages
 
 # Install this repo
 # Typically I will put it in /opt
