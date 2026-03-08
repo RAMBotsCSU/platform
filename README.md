@@ -20,6 +20,8 @@ curl -fsSL https://pyenv.run | bash
 
 # Install pipenv
 pip install pipenv --break-system-packages
+# add to path
+PATH=$PATH:/home/pi/.local/bin
 
 # Install this repo
 # Typically I will put it in /opt
