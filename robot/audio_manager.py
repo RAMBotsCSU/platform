@@ -1,6 +1,7 @@
 import pygame
 from pygame import mixer
 import random
+import os
 
 class AudioManager:
     def __init__(self):
@@ -9,7 +10,8 @@ class AudioManager:
 
         if self.AUDIO_ENABLED:
             mixer.init()
-            audio_folder = '/Resources/Sounds/'
+            # Use relative path from project root
+            audio_folder = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'Resources', 'Sounds') + os.sep
             
             # Load audio files
             self.startup1 = pygame.mixer.Sound(audio_folder + 'Other/startup_1.mp3')

@@ -10,6 +10,7 @@ from .ui import MainWindow
 from .mode import Mode
 from .motion import Motion
 from .controller import Controller
+from .audio_manager import AudioManager
 
 
 class Sparky:
@@ -19,6 +20,7 @@ class Sparky:
 
     def __init__(self) -> None:
         self._executor = ThreadPoolExecutor(max_workers=3)
+        self.audio_manager = AudioManager()
 
     async def __aenter__(self):
         return self
@@ -31,6 +33,18 @@ class Sparky:
             try:
                 print(f"Starting mode '{self.selected_mode_name}'")
 
+                mode_audio_map = {
+                    "manual": 0,        # walkMode
+                    "pushup": 1,        # pushUpsMode  
+                    "leg_control": 2,   # legControlMode
+                    "leg_testing": 3,   # gyroMode (closest match)
+                    "gesture": 4,       # machineLearningMode (ML/gesture)
+                    "dance": 5          # danceMode
+                }
+
+                # Play mode change sound
+                mode_number = mode_audio_map.get(self.selected_mode_name, 0)
+                self.audio_manager.play_mode_sounds(mode_number)
                 # dynamically load the mode at runtime
                 name = importlib.util.resolve_name(f"robot.modes.{self.selected_mode_name}", None)
                 spec = importlib.util.find_spec(name)
@@ -49,6 +63,7 @@ class Sparky:
                 print_exc()
 
         else:
+            self.audio_manager.play_sound("pause")
             self.motion.stop()
             self.mode.stop()
             self.mode = None
@@ -86,6 +101,9 @@ class Sparky:
         self.ui = MainWindow.start(self)
         self.loop = self.ui.loop
         asyncio.set_event_loop(self.loop)
+
+        # Play startup sound
+        self.audio_manager.play_sound("startup1")
 
         self.controller = Controller(self)
         self.loop.create_task(self.controller.events())
