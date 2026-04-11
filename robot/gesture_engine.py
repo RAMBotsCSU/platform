@@ -1,7 +1,6 @@
 # robot/gesture_engine.py
 
 import cv2
-import time
 import logging
 from collections import deque
 
@@ -11,11 +10,18 @@ from pycoral.adapters import common, classify
 
 
 class Gesture:
-    STOP = 0
-    PUSH_DOWN = 1
-    SIT = 2
-    WALK_FORWARD = 3
-    WALK_BACKWARD = 4
+    NONE = 0
+    CROSS = 1
+    CIRCLE = 2
+    SQUARE = 3
+    TRIANGLE = 4
+
+    # Backward compatible aliases for existing callers.
+    STOP = NONE
+    PUSH_DOWN = CROSS
+    SIT = TRIANGLE
+    WALK_FORWARD = SQUARE
+    WALK_BACKWARD = CIRCLE
 
 
 class GestureEngine:
@@ -61,11 +67,11 @@ class GestureEngine:
         # Map label string -> Gesture enum
         # Adjust keys here to match your labels.txt
         self.label_to_gesture = {
-            "stop": Gesture.STOP,
-            "fist": Gesture.PUSH_DOWN,
-            "palm": Gesture.SIT,
-            "peace_inverted": Gesture.WALK_FORWARD,
-            "one": Gesture.WALK_BACKWARD,
+            "stop": Gesture.NONE,
+            "fist": Gesture.CROSS,
+            "one": Gesture.CIRCLE,
+            "peace_inverted": Gesture.SQUARE,
+            "palm": Gesture.TRIANGLE,
         }
 
         self.logger.info(

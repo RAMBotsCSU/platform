@@ -12,15 +12,15 @@ class GestureMode(Mode):
     A mode that ignores the PS4 controller and drives Sparky purely
     from hand gestures via the Coral/EdgeTPU.
 
-    Gestures:
-      - STOP          -> stand still (home position)
-      - WALK_FORWARD  -> walk forward
-      - WALK_BACKWARD -> walk backward
-      - SIT           -> triangle button (if Teensy is in push-up mode)
-      - PUSH_DOWN     -> cross button (if Teensy is in push-up mode)
+        Gestures mapped to virtual PS face buttons:
+            - fist           -> cross
+            - one            -> circle
+            - peace_inverted -> square
+            - palm           -> triangle
+            - stop           -> no button pressed
     """
 
-    MODE_ID = 7
+    MODE_ID = 4
 
     def __init__(self, robot: Sparky) -> None:
         super().__init__(robot)
@@ -43,33 +43,22 @@ class GestureMode(Mode):
             while True:
                 gesture = self.engine.get_gesture()
 
-                # Default: no movement if no new gesture
+                # Match PushUpMode command shape: neutral sticks/triggers/dpad
+                # and only emit face-button commands.
                 rfb = rlr = lfb = llr = 0
                 rt = lt = 0
                 dpad_u = dpad_d = dpad_l = dpad_r = 0
                 triangle = cross = square = circle = 0
 
                 if gesture is not None:
-                    # Map gesture -> "virtual controller" values
-                    if gesture == Gesture.STOP:
-                        # Stand still
-                        pass  # everything already zero
-
-                    elif gesture == Gesture.WALK_FORWARD:
-                        # Right stick up: forward
-                        rfb = 128  # same scale as manual: -128..127
-
-                    elif gesture == Gesture.WALK_BACKWARD:
-                        # Right stick down: backward
-                        rfb = -128
-
-                    elif gesture == Gesture.SIT:
-                        # Triangle press
-                        triangle = 1
-
-                    elif gesture == Gesture.PUSH_DOWN:
-                        # Cross press
+                    if gesture == Gesture.CROSS:
                         cross = 1
+                    elif gesture == Gesture.CIRCLE:
+                        circle = 1
+                    elif gesture == Gesture.SQUARE:
+                        square = 1
+                    elif gesture == Gesture.TRIANGLE:
+                        triangle = 1
 
                 # Send command to motion system
                 await self.robot.move(
@@ -89,8 +78,6 @@ class GestureMode(Mode):
                     circle,
                 )
 
-                # This sleep controls how often we push commands to the Teensy.
-                # ManualMode uses 0.1s; we mirror that for now.
                 await asyncio.sleep(0.1)
 
         except asyncio.CancelledError:
