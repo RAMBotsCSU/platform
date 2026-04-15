@@ -1,18 +1,41 @@
-import serial
-import time
+import serial, time, asyncio
+from serial.tools import list_ports
 
-SERIAL_PORT = '/dev/ttyUSB0'  # change to your port (see note below)
-BAUD_RATE   = 115200
+class Face:
+    OVAL = 'OVAL'
+    X = 'X'
+    WALK = 'WALK'
+    HAPPY = 'HAPPY'
+    SCROLL = 'SCROLL'
+    OFF = 'OFF'
 
-ser = serial.Serial(SERIAL_PORT, BAUD_RATE, timeout=1)
-time.sleep(2)  # wait for ESP32 to reboot after serial connect
+    BAUD_RATE   = 115200
 
-def send_command(cmd):
-    ser.write((cmd + '\n').encode())
-    response = ser.readline().decode().strip()
-    print(f"Sent: {cmd} | Response: {response}")
+    def __init__(self):
+        self.ser = serial.Serial(self._find_serial_dev(), self.BAUD_RATE, timeout=1)
+        time.sleep(2)  # wait for ESP32 to reboot after serial connect
 
-send_command('OVAL')
+    def _find_serial_dev(self):
+        for port in list_ports.comports():
+            if port.manufacturer == 'Espressif':
+                return port.device
+
+        raise Exception("Could not connect to face controller")
+
+
+    def send_command(self, cmd):
+        self.ser.write((cmd + '\n').encode())
+        response = self.ser.readline().decode().strip()
+        print(f"Sent: {cmd} | Response: {response}")
+
+    def close(self):
+        self.ser.close()
+
+
+
+
+face = Face()
+face.send_command('OVAL')
 time.sleep(5)
 send_command('X')
 time.sleep(5)

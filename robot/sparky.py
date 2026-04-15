@@ -10,15 +10,24 @@ from .ui import MainWindow
 from .mode import Mode
 from .motion import Motion
 from .controller import Controller
-
+from .face import Face
 
 class Sparky:
     enabled: bool = False
     mode: Mode = None
     selected_mode_name: str
+    face: Face = None
 
     def __init__(self) -> None:
         self._executor = ThreadPoolExecutor(max_workers=3)
+        self.mode_to_face = {
+            "manual": Face.WALK,
+            "pushup": Face.X,
+            "dance": Face.SCROLL,
+            "leg_testing": Face.OVAL,
+            "gesture": Face.HAPPY,
+            "leg_control": Face.WALK,
+        }
 
     async def __aenter__(self):
         return self
@@ -45,6 +54,11 @@ class Sparky:
 
                 self.enabled = en
 
+                # Update face by selected mode
+                if self.face:
+                    cmd = self.mode_to_face.get(self.selected_mode_name, Face.OVAL)
+                    self.face.send_command(cmd)
+
             except Exception as e:
                 print_exc()
 
@@ -53,6 +67,10 @@ class Sparky:
             self.mode.stop()
             self.mode = None
             self.enabled = en
+
+            # Robot disabled expression
+            if self.face:
+                self.face.send_command(Face.OFF)
 
 
     async def heartbeat(self):
@@ -94,8 +112,14 @@ class Sparky:
         self.motion = Motion(self)
         self.loop.create_task(self.motion.run())
 
-        self.loop.create_task(self.heartbeat())
+        # Initialize face once
+        try:
+            self.face = Face()
+        except Exception as e:
+            print(f"Face init failed: {e}")
+            self.face = None
 
+        self.loop.create_task(self.heartbeat())
         self.ui.loop.run_forever()
 
     def stop(self):
