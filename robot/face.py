@@ -30,21 +30,3 @@ class Face:
 
     def close(self):
         self.ser.close()
-
-
-
-
-face = Face()
-face.send_command('OVAL')
-time.sleep(5)
-send_command('X')
-time.sleep(5)
-send_command('WALK')
-time.sleep(5)
-send_command('HAPPY')
-time.sleep(5)
-send_command('SCROLL')
-time.sleep(5)
-send_command('OFF')
-
-ser.close()
