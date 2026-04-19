@@ -1,6 +1,6 @@
 import asyncio
 
-from robot import Sparky
+from robot.sparky import Sparky
 
 async def main():
     async with Sparky() as sparky:
