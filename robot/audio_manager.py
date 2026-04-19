@@ -76,7 +76,8 @@ class AudioManager:
 # If audio is enabled, and this function is called, audio will play sound_key
     def play_sound(self, sound_key):
         if self.AUDIO_ENABLED and sound_key in self.audio_dict:
-            pygame.mixer.Sound.play(self.audio_dict[sound_key])
+            return self.audio_dict[sound_key].play()
+        return None
             
     def play_mode_sounds(self, mode):
         # Map modes to sound keys
