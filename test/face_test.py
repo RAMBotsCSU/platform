@@ -1,36 +1,69 @@
 import unittest
+import os
 from unittest.mock import MagicMock, patch
 
 from robot.face import Face
 
 
 class TestFace(unittest.TestCase):
-    @patch("robot.face.time.sleep")
-    def test_send_command_writes_line_and_returns_response(self, mock_sleep):
+    def _make_face(self):
+        face = Face.__new__(Face)
         mock_serial = MagicMock()
         mock_serial.readline.return_value = b"ok\n"
+        face.ser = mock_serial
+        return face, mock_serial
 
-        face = Face(
-            port="/dev/ttyUSB0",
-            serial_factory=lambda *args, **kwargs: mock_serial,
-            warmup_seconds=0,
-        )
+    def _assert_expression_command(self, expression):
+        face, mock_serial = self._make_face()
+        face.send_command(expression)
+        mock_serial.write.assert_called_once_with(f"{expression}\n".encode())
+        mock_serial.readline.assert_called_once()
 
-        response = face.send_command("OVAL")
+    def test_send_face_expression_oval(self):
+        self._assert_expression_command(Face.OVAL)
 
-        mock_serial.write.assert_called_once_with(b"OVAL\n")
-        self.assertEqual(response, "ok")
+    def test_send_face_expression_x(self):
+        self._assert_expression_command(Face.X)
 
-    @patch("robot.face.list_ports.comports")
-    def test_find_serial_dev_prefers_espressif(self, mock_comports):
-        port = MagicMock()
-        port.manufacturer = "Espressif"
-        port.device = "COM7"
-        mock_comports.return_value = [port]
+    def test_send_face_expression_walk(self):
+        self._assert_expression_command(Face.WALK)
 
+    def test_send_face_expression_happy(self):
+        self._assert_expression_command(Face.HAPPY)
+
+    def test_send_face_expression_scroll(self):
+        self._assert_expression_command(Face.SCROLL)
+
+    def test_send_face_expression_off(self):
+        self._assert_expression_command(Face.OFF)
+
+    @patch("robot.face.time.sleep")
+    def test_test_all_expressions_calls_each_expression(self, mock_sleep):
         face = Face.__new__(Face)
+        face.send_command = MagicMock(return_value="ok")
 
-        self.assertEqual(face._find_serial_dev(), "COM7")
+        results = face.test_all_expressions(delay_s=0)
+
+        self.assertEqual(
+            [call.args[0] for call in face.send_command.call_args_list],
+            Face.EXPRESSIONS,
+        )
+        self.assertEqual(results, {expression: "ok" for expression in Face.EXPRESSIONS})
+        self.assertEqual(mock_sleep.call_count, len(Face.EXPRESSIONS))
+
+    @unittest.skipUnless(
+        os.getenv("RUN_FACE_HARDWARE_TEST") == "1",
+        "Set RUN_FACE_HARDWARE_TEST=1 to run hardware communication smoke test",
+    )
+    def test_hardware_smoke_communicates_with_face_controller(self):
+        face = None
+        try:
+            face = Face()
+            delay_s = float(os.getenv("FACE_HARDWARE_DELAY_S", "2.0"))
+            face.test_all_expressions(delay_s=delay_s)
+        finally:
+            if face is not None:
+                face.close()
 
 
 if __name__ == "__main__":
