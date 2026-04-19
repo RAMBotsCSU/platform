@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/images">
+        <file>ui_images/rambotsbackground.png</file>
+    </qresource>
+</RCC>

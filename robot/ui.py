@@ -5,10 +5,11 @@ import asyncio
 
 from typing import TYPE_CHECKING
 
-from PyQt6.QtWidgets import QApplication, QMainWindow, QPushButton, QLabel, QGroupBox
+from PyQt6.QtWidgets import QApplication, QMainWindow, QPushButton, QLabel, QGroupBox, QStyleFactory
 from PyQt6 import uic
 from PyQt6.QtGui import QCloseEvent
 from qasync import QEventLoop, asyncSlot
+from pathlib import Path
 
 if TYPE_CHECKING:
     import asyncio
@@ -25,6 +26,13 @@ class MainWindow(QMainWindow):
         self.robot = robot
 
         uic.loadUi("platform.ui", self)
+        bg_path = Path(__file__).resolve().parent / "ui_images" / "rambotsbackground.png"
+
+        self.setStyleSheet(f"""
+        QWidget#centralwidget {{
+        border-image: url({bg_path.as_posix()}) 0 0 0 0 stretch stretch;
+        }}
+        """)
 
         # Access the button from the UI file
         self.enableButton = self.findChild(QPushButton, "enableButton")
@@ -88,6 +96,7 @@ class MainWindow(QMainWindow):
     @classmethod
     def start(cls, robot: Sparky):
         app = QApplication(sys.argv)
+        app.setStyle(QStyleFactory.create('Fusion'))
 
         self = cls(robot)
         self.loop = QEventLoop(app)

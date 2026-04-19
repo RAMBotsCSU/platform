@@ -1,0 +1,7 @@
+<RCC>
+    <qresource prefix="/new/prefix1">
+        <file>ui_images/Group_1.ui.qml</file>
+        <file>ui_images/DesignTokens/DesignTokens.qmlproject</file>
+        <file>ui_images/DesignTokens/qmldir</file>
+    </qresource>
+</RCC>
