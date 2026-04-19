@@ -1,5 +1,6 @@
 import sys
 import os
+import time
 
 # Ensure the parent directory is in sys.path so that the 'robot' package is found.
 current_dir = os.path.dirname(os.path.abspath(__file__))
@@ -34,18 +35,23 @@ class DummySound:
 def dummy_sound_constructor(filename):
     return DummySound(filename)
 
-# --- Test Cases for AudioManager ---
-# Patch the mixer initialization and Sound creation.
-@patch('pygame.mixer.init')
-@patch('pygame.mixer.Sound', side_effect=dummy_sound_constructor)
 class TestAudioManager(unittest.TestCase):
-    
-    def setUp(self, *args, **kwargs):
+    def setUp(self):
         logger.info("Setting up AudioManager instance for tests.")
-        from robot.audio_manager import AudioManager  # Adjusted import with sys.path set up above.
+        self.init_patcher = patch('robot.audio_manager.mixer.init')
+        self.sound_patcher = patch('robot.audio_manager.pygame.mixer.Sound', side_effect=dummy_sound_constructor)
+
+        self.mock_init = self.init_patcher.start()
+        self.mock_sound = self.sound_patcher.start()
+
+        from robot.audio_manager import AudioManager
         self.audio_manager = AudioManager()
 
-    def test_play_sound_valid(self, mock_sound, mock_init):
+    def tearDown(self):
+        self.sound_patcher.stop()
+        self.init_patcher.stop()
+
+    def test_play_sound_valid(self):
         logger.info("Test: play_sound with a valid key 'startup1'.")
         self.audio_manager.audio_dict["startup1"].play_called = False
         self.audio_manager.play_sound("startup1")
@@ -54,7 +60,7 @@ class TestAudioManager(unittest.TestCase):
             "The 'startup1' sound should have been played."
         )
 
-    def test_play_sound_invalid(self, mock_sound, mock_init):
+    def test_play_sound_invalid(self):
         logger.info("Test: play_sound with an invalid key (should not play any sound).")
         for sound in self.audio_manager.audio_dict.values():
             sound.play_called = False
@@ -65,7 +71,7 @@ class TestAudioManager(unittest.TestCase):
                 f"Sound '{key}' should not have been played for an invalid key."
             )
 
-    def test_play_mode_sounds(self, mock_sound, mock_init):
+    def test_play_mode_sounds(self):
         logger.info("Test: play_mode_sounds for each mode.")
         mode_mapping = {
             0: "walkMode",
@@ -84,7 +90,7 @@ class TestAudioManager(unittest.TestCase):
                 f"Sound '{expected_sound}' should have been played for mode {mode}."
             )
 
-    def test_play_songs_random(self, mock_sound, mock_init):
+    def test_play_songs_random(self):
         logger.info("Test: play_songs with -1 (should play one random song).")
         song_keys = ["song1", "song2", "song3", "song4"]
         for key in song_keys:
@@ -97,7 +103,7 @@ class TestAudioManager(unittest.TestCase):
             "Exactly one random song should have been played when song parameter is -1."
         )
 
-    def test_play_songs_specific(self, mock_sound, mock_init):
+    def test_play_songs_specific(self):
         logger.info("Test: play_songs with a specific song number (e.g., 2).")
         self.audio_manager.audio_dict["song2"].play_called = False
         self.audio_manager.play_songs(2)
@@ -105,6 +111,24 @@ class TestAudioManager(unittest.TestCase):
             self.audio_manager.audio_dict["song2"].play_called,
             "The 'song2' sound should have been played for song parameter 2."
         )
+
+
+@unittest.skipUnless(
+    os.getenv("RUN_AUDIO_HARDWARE_TEST") == "1",
+    "Set RUN_AUDIO_HARDWARE_TEST=1 to run real audio hardware smoke test",
+)
+class TestAudioManagerHardware(unittest.TestCase):
+    def test_hardware_smoke_play_sound(self):
+        from robot.audio_manager import AudioManager
+
+        logger.info("Running real hardware audio smoke test.")
+        audio_manager = AudioManager()
+        sound_key = os.getenv("SOUND_KEY", "startup1")
+        wait_s = float(os.getenv("AUDIO_HARDWARE_WAIT_S", "5.0"))
+
+        # No assertions: this test only triggers real playback.
+        audio_manager.play_sound(sound_key)
+        time.sleep(wait_s)
 
 if __name__ == '__main__':
     unittest.main()
