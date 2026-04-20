@@ -22,6 +22,7 @@ class Sparky:
 
     def __init__(self) -> None:
         self._executor = ThreadPoolExecutor(max_workers=3)
+        self.lidar = None
         self.mode_to_face = {
             "manual": Face.WALK,
             "pushup": Face.X,
@@ -117,6 +118,27 @@ class Sparky:
         self.motion.move(*args, **kwargs)
 
     async def run(self):
+        # Initialize LiDAR if available (optional hardware)
+        try:
+            from .lidar import LiDAR
+
+            self.lidar = LiDAR(
+                port=None,
+                max_distance=2000,
+                test_output=False,
+                invert_rotation=True,
+            )
+
+            if self.lidar.port is None:
+                self.lidar.port = self.lidar.find_serial_dev()
+
+            await self.lidar.connect()
+            self.lidar.start(loop=None)
+            print("LiDAR initialized")
+        except Exception as e:
+            print(f"LiDAR init skipped: {e}")
+            self.lidar = None
+
         self.ui = MainWindow.start(self)
         self.loop = self.ui.loop
         asyncio.set_event_loop(self.loop)
@@ -154,6 +176,9 @@ class Sparky:
             task.cancel()
 
         self.loop.stop()
+
+        if self.lidar:
+            self._executor.submit(asyncio.run, self.lidar.stop())
 
         # set controller back to blue, weird annoying way
         self._executor.submit(asyncio.run, self.controller.led.set_color((0, 0, 50)))

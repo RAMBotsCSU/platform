@@ -4,7 +4,7 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-pyqt6 = "*"
+PyQt6 = "*"
 qasync = "*"
 evdev = "*"
 aiofiles = "*"

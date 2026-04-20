@@ -2,14 +2,28 @@ from __future__ import annotations
 
 import sys
 import asyncio
+import importlib.util
+from pathlib import Path
 
 from typing import TYPE_CHECKING
 
-from PyQt6.QtWidgets import QApplication, QMainWindow, QPushButton, QLabel, QGroupBox, QStyleFactory
+from PyQt6.QtWidgets import QApplication, QMainWindow, QPushButton, QLabel, QGroupBox, QWidget, QVBoxLayout, QStyleFactory
 from PyQt6 import uic
 from PyQt6.QtGui import QCloseEvent
 from qasync import QEventLoop, asyncSlot
 from pathlib import Path
+
+try:
+    from .lidar_widget import LiDARRadarWidget
+except ImportError:
+    # Support direct module loading in smoke tests that bypass package imports.
+    lidar_widget_path = Path(__file__).with_name("lidar_widget.py")
+    spec = importlib.util.spec_from_file_location("lidar_widget_module", lidar_widget_path)
+    if spec is None or spec.loader is None:
+        raise RuntimeError(f"Could not load LiDAR widget module from {lidar_widget_path}")
+    lidar_widget_module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(lidar_widget_module)
+    LiDARRadarWidget = lidar_widget_module.LiDARRadarWidget
 
 if TYPE_CHECKING:
     import asyncio
@@ -46,6 +60,17 @@ class MainWindow(QMainWindow):
         if self.modeSelect:
             for btn in self.modeSelect.findChildren(QPushButton):
                 btn.clicked.connect(self.on_mode_button)
+
+        # Mount LiDAR radar widget (if placeholder exists in .ui)
+        self.lidarPlaceholder = self.findChild(QWidget, "lidar_widget")
+        if self.lidarPlaceholder:
+            lidar = getattr(self.robot, "lidar", None)
+            self.lidarView = LiDARRadarWidget(lidar, parent=self.lidarPlaceholder)
+            layout = self.lidarPlaceholder.layout()
+            if layout is None:
+                layout = QVBoxLayout(self.lidarPlaceholder)
+                layout.setContentsMargins(0, 0, 0, 0)
+            layout.addWidget(self.lidarView)
 
     def set_mode_buttons_disabled(self, disabled: bool):
         for btn in self.modeSelect.findChildren(QPushButton):
