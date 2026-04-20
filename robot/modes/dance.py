@@ -9,7 +9,6 @@ face = Face()
 # filler since I implemented all buttons in ManualMode
 class DanceMode(ManualMode, Face):
     MODE_ID = 5
-    face.send_command(Face.HAPPY)
 
 async def setup(robot: Sparky):
     return DanceMode(robot)
