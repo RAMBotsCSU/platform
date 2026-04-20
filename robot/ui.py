@@ -9,6 +9,12 @@ from typing import TYPE_CHECKING
 
 from PyQt6.QtWidgets import QApplication, QMainWindow, QPushButton, QLabel, QGroupBox, QWidget, QVBoxLayout, QStyleFactory
 from PyQt6 import uic
+
+# Initialize Qt resources
+try:
+    import assets_rc
+except ImportError:
+    pass
 from PyQt6.QtGui import QCloseEvent
 from qasync import QEventLoop, asyncSlot
 from pathlib import Path
@@ -40,13 +46,15 @@ class MainWindow(QMainWindow):
         self.robot = robot
 
         uic.loadUi("platform.ui", self)
-        bg_path = Path(__file__).resolve().parent / "ui_images" / "rambotsbackground.png"
-
-        self.setStyleSheet(f"""
-        QWidget#centralwidget {{
-        border-image: url({bg_path.as_posix()}) 0 0 0 0 stretch stretch;
-        }}
-        """)
+        
+        # Set background image from Resources directory
+        bg_path = Path(__file__).resolve().parent.parent / "Resources" / "background.png"
+        if bg_path.exists():
+            self.setStyleSheet(f"""
+            QWidget#centralwidget {{
+            border-image: url({bg_path.as_posix()}) 0 0 0 0 stretch stretch;
+            }}
+            """)
 
         # Access the button from the UI file
         self.enableButton = self.findChild(QPushButton, "enableButton")
