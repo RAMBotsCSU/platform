@@ -496,7 +496,7 @@
        <rect>
         <x>0</x>
         <y>80</y>
-        <width>771</width>
+        <width>751</width>
         <height>281</height>
        </rect>
       </property>
@@ -3789,6 +3789,8 @@ background-color: qlineargradient(spread:pad, x1:0, y1:1, x2:0, y2:0, stop:0.094
        <font>
         <family>Monospace</family>
         <pointsize>14</pointsize>
+        <weight>75</weight>
+        <bold>true</bold>
        </font>
       </property>
       <property name="cursor">
@@ -4277,7 +4279,9 @@ background-color: qlineargradient(spread:pad, x1:0, y1:1, x2:0, y2:0, stop:0.094
        <font>
         <family>Monospace</family>
         <pointsize>14</pointsize>
+        <weight>75</weight>
         <italic>false</italic>
+        <bold>true</bold>
        </font>
       </property>
       <property name="cursor">
@@ -4318,6 +4322,52 @@ background-color: qlineargradient(spread:pad, x1:0, y1:1, x2:0, y2:0, stop:0.094
         <width>741</width>
         <height>361</height>
        </rect>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="gesture">
+     <attribute name="title">
+      <string>Gesture ML</string>
+     </attribute>
+     <widget class="QWidget" name="gesture_widget" native="true">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>10</y>
+        <width>741</width>
+        <height>371</height>
+       </rect>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="diagnostics">
+     <attribute name="title">
+      <string>Diagnostics</string>
+     </attribute>
+     <widget class="QProgressBar" name="battery">
+      <property name="geometry">
+       <rect>
+        <x>630</x>
+        <y>350</y>
+        <width>118</width>
+        <height>23</height>
+       </rect>
+      </property>
+      <property name="value">
+       <number>56</number>
+      </property>
+     </widget>
+     <widget class="QLabel" name="info">
+      <property name="geometry">
+       <rect>
+        <x>40</x>
+        <y>20</y>
+        <width>701</width>
+        <height>301</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>RamBOT Information:</string>
       </property>
      </widget>
     </widget>

@@ -40,6 +40,8 @@ class Motion:
 
     def __init__(self, robot: Sparky) -> None:
         self.robot = robot
+        self.status = None
+        self.connected = False
 
         self._connect()
 
@@ -159,12 +161,24 @@ class Motion:
                 if ret:
                     try:
                         status = ODriveStatus.ODriveStatus.GetRootAsODriveStatus(ret, 0)
+                        self.status = status
+                        self.connected = any(
+                            (
+                                status.Connected0(),
+                                status.Connected1(),
+                                status.Connected2(),
+                                status.Connected3(),
+                                status.Connected4(),
+                                status.Connected5(),
+                            )
+                        )
                         print(f"Connected: 1: {status.Connected0()}, 2: {status.Connected1()}, 3: {status.Connected2()}, 4: {status.Connected3()}, 5: {status.Connected4()}, 6: {status.Connected5()}")
                         print(f"Errors:\n    00: {status.Error00()}, 01: {status.Error01()}\n    10: {status.Error10()}, 11: {status.Error11()}\n    20: {status.Error20()}, 21: {status.Error21()}\n    30: {status.Error30()}, 31: {status.Error31()}\n    40: {status.Error40()}, 41: {status.Error41()}\n    50: {status.Error50()}, 51: {status.Error51()}")
                     except Exception as e:
                         print(f"ugh {e}", print(ret))
                         pass
                 else:
+                    self.connected = False
                     print("Motion controller did not respond")
 
                 await asyncio.sleep(0.1)

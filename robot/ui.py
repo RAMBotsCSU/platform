@@ -7,7 +7,7 @@ from pathlib import Path
 
 from typing import TYPE_CHECKING
 
-from PyQt6.QtWidgets import QApplication, QMainWindow, QPushButton, QLabel, QGroupBox, QWidget, QVBoxLayout, QStyleFactory
+from PyQt6.QtWidgets import QApplication, QMainWindow, QPushButton, QLabel, QGroupBox, QWidget, QVBoxLayout, QStyleFactory, QProgressBar
 from PyQt6 import uic
 
 # Initialize Qt resources
@@ -17,6 +17,7 @@ except ImportError:
     pass
 from PyQt6.QtGui import QCloseEvent
 from qasync import QEventLoop, asyncSlot
+from PyQt6.QtCore import QTimer
 from pathlib import Path
 
 try:
@@ -79,6 +80,54 @@ class MainWindow(QMainWindow):
                 layout = QVBoxLayout(self.lidarPlaceholder)
                 layout.setContentsMargins(0, 0, 0, 0)
             layout.addWidget(self.lidarView)
+
+        self.batteryBar = self._find_battery_bar()
+        self.infoLabel = self.findChild(QLabel, "info")
+
+        self.telemetryTimer = QTimer(self)
+        self.telemetryTimer.setInterval(500)
+        self.telemetryTimer.timeout.connect(self.refresh_telemetry)
+        self.telemetryTimer.start()
+        self.refresh_telemetry()
+
+    def _find_battery_bar(self) -> QProgressBar | None:
+        for name in ("battery", "batteryBar", "batteryProgressBar", "progressBar"):
+            bar = self.findChild(QProgressBar, name)
+            if bar is not None:
+                return bar
+
+        return self.findChild(QProgressBar)
+
+    def refresh_telemetry(self):
+        controller = getattr(self.robot, "controller", None)
+        if self.batteryBar is not None:
+            battery = int(getattr(controller, "battery", 0) or 0)
+            battery = max(0, min(100, battery))
+            self.batteryBar.setRange(0, 100)
+            self.batteryBar.setValue(battery)
+            self.batteryBar.setFormat(f"{battery}%")
+
+        if self.infoLabel is not None:
+            motion = getattr(self.robot, "motion", None)
+            connected = getattr(motion, "connected", None)
+
+            if connected is None:
+                status = getattr(motion, "status", None)
+                if status is not None:
+                    try:
+                        connected = any(
+                            bool(getattr(status, f"Connected{i}")())
+                            for i in range(6)
+                        )
+                    except Exception:
+                        connected = None
+
+            if connected is None:
+                text = "Motion: N/A"
+            else:
+                text = "Motion: Connected" if connected else "Motion: Disconnected"
+
+            self.infoLabel.setText(text)
 
     def set_mode_buttons_disabled(self, disabled: bool):
         for btn in self.modeSelect.findChildren(QPushButton):
