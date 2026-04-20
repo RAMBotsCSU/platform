@@ -3,7 +3,7 @@
  <class>MainWindow</class>
  <widget class="QMainWindow" name="MainWindow">
   <property name="windowModality">
-   <enum>Qt::NonModal</enum>
+   <enum>Qt::WindowModality::NonModal</enum>
   </property>
   <property name="geometry">
    <rect>
@@ -464,6 +464,12 @@
   <property name="windowTitle">
    <string>Window</string>
   </property>
+  <property name="styleSheet">
+   <string notr="true">QWidget#centralwidget {
+    border: 3px solid green;
+    border-image: url(ui_images/rambotsbackground.png) 0 0 0 0 stretch stretch;
+}</string>
+  </property>
   <widget class="QWidget" name="centralwidget">
    <widget class="QTabWidget" name="tabWidget">
     <property name="enabled">
@@ -480,9 +486,14 @@
     <property name="font">
      <font>
       <family>Helvetica Light</family>
-      <weight>75</weight>
       <bold>true</bold>
      </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QWidget#centralwidget {
+    border: 3px solid green;
+    border-image: url(ui_images/rambotsbackground.png) 0 0 0 0 stretch stretch;
+}</string>
     </property>
     <property name="currentIndex">
      <number>0</number>
@@ -3454,6 +3465,15 @@ background-color: qlineargradient(spread:pad, x1:0, y1:1, x2:0, y2:0, stop:0.094
            </color>
           </brush>
          </colorrole>
+         <colorrole role="Highlight">
+          <brush brushstyle="SolidPattern">
+           <color alpha="255">
+            <red>31</red>
+            <green>155</green>
+            <blue>93</blue>
+           </color>
+          </brush>
+         </colorrole>
          <colorrole role="AlternateBase">
           <brush brushstyle="SolidPattern">
            <color alpha="255">
@@ -3597,6 +3617,15 @@ background-color: qlineargradient(spread:pad, x1:0, y1:1, x2:0, y2:0, stop:0.094
             <red>0</red>
             <green>0</green>
             <blue>0</blue>
+           </color>
+          </brush>
+         </colorrole>
+         <colorrole role="Highlight">
+          <brush brushstyle="SolidPattern">
+           <color alpha="255">
+            <red>31</red>
+            <green>155</green>
+            <blue>93</blue>
            </color>
           </brush>
          </colorrole>
@@ -3746,6 +3775,15 @@ background-color: qlineargradient(spread:pad, x1:0, y1:1, x2:0, y2:0, stop:0.094
            </color>
           </brush>
          </colorrole>
+         <colorrole role="Highlight">
+          <brush brushstyle="SolidPattern">
+           <color alpha="255">
+            <red>31</red>
+            <green>155</green>
+            <blue>93</blue>
+           </color>
+          </brush>
+         </colorrole>
          <colorrole role="AlternateBase">
           <brush brushstyle="SolidPattern">
            <color alpha="255">
@@ -3789,7 +3827,6 @@ background-color: qlineargradient(spread:pad, x1:0, y1:1, x2:0, y2:0, stop:0.094
        <font>
         <family>Monospace</family>
         <pointsize>14</pointsize>
-        <weight>75</weight>
         <bold>true</bold>
        </font>
       </property>
@@ -3797,7 +3834,7 @@ background-color: qlineargradient(spread:pad, x1:0, y1:1, x2:0, y2:0, stop:0.094
        <cursorShape>PointingHandCursor</cursorShape>
       </property>
       <property name="focusPolicy">
-       <enum>Qt::NoFocus</enum>
+       <enum>Qt::FocusPolicy::NoFocus</enum>
       </property>
       <property name="toolTipDuration">
        <number>-1</number>
@@ -4279,7 +4316,6 @@ background-color: qlineargradient(spread:pad, x1:0, y1:1, x2:0, y2:0, stop:0.094
        <font>
         <family>Monospace</family>
         <pointsize>14</pointsize>
-        <weight>75</weight>
         <italic>false</italic>
         <bold>true</bold>
        </font>
@@ -4288,7 +4324,7 @@ background-color: qlineargradient(spread:pad, x1:0, y1:1, x2:0, y2:0, stop:0.094
        <cursorShape>PointingHandCursor</cursorShape>
       </property>
       <property name="focusPolicy">
-       <enum>Qt::NoFocus</enum>
+       <enum>Qt::FocusPolicy::NoFocus</enum>
       </property>
       <property name="autoFillBackground">
        <bool>false</bool>
@@ -4375,8 +4411,6 @@ background-color: qlineargradient(spread:pad, x1:0, y1:1, x2:0, y2:0, stop:0.094
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>
- <resources>
-  <include location="assets.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>

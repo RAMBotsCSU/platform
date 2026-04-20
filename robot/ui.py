@@ -49,7 +49,7 @@ class MainWindow(QMainWindow):
         uic.loadUi("platform.ui", self)
         
         # Set background image from Resources directory
-        bg_path = Path(__file__).resolve().parent.parent / "Resources" / "background.png"
+        bg_path = Path(__file__).resolve().parent.parent / "ui_images" / "rambotsbackground.png"
         if bg_path.exists():
             self.setStyleSheet(f"""
             QWidget#centralwidget {{
