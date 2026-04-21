@@ -49,47 +49,53 @@ class MainWindow(QMainWindow):
         uic.loadUi("platform.ui", self)
         
         # Set background image from Resources directory
+        # bg_path = Path(__file__).resolve().parent.parent / "ui_images" / "rambotsbackground.png"
+        # if bg_path.exists():
+        #     self.setStyleSheet(f"""
+        #     QWidget#centralwidget {{
+        #     border-image: url({bg_path.as_posix()}) 0 0 0 0 stretch stretch;
+        #     }}
+        #     """)
         bg_path = Path(__file__).resolve().parent.parent / "ui_images" / "rambotsbackground.png"
-        if bg_path.exists():
-            self.setStyleSheet(f"""
-            QWidget#centralwidget {{
-            border-image: url({bg_path.as_posix()}) 0 0 0 0 stretch stretch;
-            }}
-            """)
-        self.setStyleSheet("""
-        QPushButton#enableButton {
+
+        self.setStyleSheet(f"""
+        QWidget#centralwidget {{
+        border-image: url({bg_path.as_posix()}) 0 0 0 0 stretch stretch;
+        }}
+
+        /* Enable button */
+        QPushButton#enableButton {{
         border-image: url(ui_images/enable_idlebutton.png) 0 0 0 0 stretch stretch;
         color: white;
         border: none;
-        }
+        }}
 
-        QPushButton#enableButton:pressed {
+        QPushButton#enableButton:pressed {{
         border-image: url(ui_images/enablediable_pressed.png) 0 0 0 0 stretch stretch;
-        }
-        """)
-        self.setStyleSheet("""
-        QPushButton#disableButton {
+        }}
+
+        /* Disable button */
+        QPushButton#disableButton {{
         border-image: url(ui_images/disable_idle.png) 0 0 0 0 stretch stretch;
         color: white;
         border: none;
-        }
+        }}
 
-        QPushButton#enableButton:pressed {
-        border-image: url(ui_images/enableddiable_pressed.png) 0 0 0 0 stretch stretch;
-        }
-        """)
+        QPushButton#disableButton:pressed {{
+        border-image: url(ui_images/enablediable_pressed.png) 0 0 0 0 stretch stretch;
+        }}
 
-        self.setStyleSheet("""
-        QGroupBox#modeSelect QPushButton {
+        /* Mode buttons */
+        QGroupBox#modeSelect QPushButton {{
         border-image: url(ui_images/final_idleState.png) 0 0 0 0 stretch stretch;
         color: white;
         border: none;
-        }
+        }}
 
         QGroupBox#modeSelect QPushButton:pressed,
-        QGroupBox#modeSelect QPushButton:checked {
+        QGroupBox#modeSelect QPushButton:checked {{
         border-image: url(ui_images/final_pressedstate.png) 0 0 0 0 stretch stretch;
-        }
+        }}
         """)
 
         # Access the button from the UI file
