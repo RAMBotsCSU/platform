@@ -58,24 +58,24 @@ class MainWindow(QMainWindow):
             """)
         self.setStyleSheet("""
         QPushButton#enableButton {
-        border-image: url(ui_images/final_idleState.png) 0 0 0 0 stretch stretch;
+        border-image: url(ui_images/enable_idlebutton.png) 0 0 0 0 stretch stretch;
         color: white;
         border: none;
         }
 
         QPushButton#enableButton:pressed {
-        border-image: url(ui_images/final_pressedstate.png) 0 0 0 0 stretch stretch;
+        border-image: url(ui_images/enablediable_pressed.png) 0 0 0 0 stretch stretch;
         }
         """)
         self.setStyleSheet("""
         QPushButton#disableButton {
-        border-image: url(ui_images/final_idleState.png) 0 0 0 0 stretch stretch;
+        border-image: url(ui_images/disable_idle.png) 0 0 0 0 stretch stretch;
         color: white;
         border: none;
         }
 
         QPushButton#enableButton:pressed {
-        border-image: url(ui_images/final_pressedstate.png) 0 0 0 0 stretch stretch;
+        border-image: url(ui_images/enableddiable_pressed.png) 0 0 0 0 stretch stretch;
         }
         """)
 
