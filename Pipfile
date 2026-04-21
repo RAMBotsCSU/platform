@@ -12,6 +12,7 @@ aiopath = "*"
 flatbuffers = "*"
 aioserial = "*"
 odrive = "*"
+opencv-python = "*"
 
 [dev-packages]
 matplotlib = "*"

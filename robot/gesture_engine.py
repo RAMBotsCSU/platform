@@ -105,6 +105,59 @@ class GestureEngine:
             return None
         return self.label_to_gesture.get(label)
 
+    def _predict_frame(self, frame: np.ndarray) -> tuple[int | None, str | None]:
+        input_tensor = self._preprocess(frame)
+        self.interpreter.set_tensor(self.input_details[0]["index"], input_tensor)
+        self.interpreter.invoke()
+
+        classes = classify.get_classes(
+            self.interpreter, top_k=1, score_threshold=self.score_threshold
+        )
+
+        if not classes:
+            return None, None
+
+        c = classes[0]
+        self.history.append(c.id)
+        current_label = self.labels.get(c.id)
+
+        # Not enough history yet
+        if len(self.history) < self.history.maxlen:
+            return None, current_label
+
+        # Majority vote
+        counts: dict[int, int] = {}
+        for cid in self.history:
+            counts[cid] = counts.get(cid, 0) + 1
+
+        majority_class = max(counts, key=counts.get)
+        gesture = self._class_to_gesture(majority_class)
+
+        if gesture is None:
+            return None, self.labels.get(majority_class)
+
+        # Only return if changed from last gesture
+        if gesture == self.last_gesture:
+            return None, self.labels.get(majority_class)
+
+        self.last_gesture = gesture
+        self.logger.info(
+            "GestureEngine: majority gesture=%s (class_id=%d, label=%s)",
+            gesture,
+            majority_class,
+            self.labels.get(majority_class, "Unknown"),
+        )
+        return gesture, self.labels.get(majority_class)
+
+    def read_frame_and_prediction(self) -> tuple[np.ndarray | None, int | None, str | None]:
+        ret, frame = self.cap.read()
+        if not ret:
+            self.logger.warning("GestureEngine: failed to read frame")
+            return None, None, None
+
+        gesture, label = self._predict_frame(frame)
+        return frame, gesture, label
+
     def get_gesture(self) -> int | None:
         """
         Capture one frame, run inference, update 3-frame history, and
@@ -118,47 +171,7 @@ class GestureEngine:
             self.logger.warning("GestureEngine: failed to read frame")
             return None
 
-        input_tensor = self._preprocess(frame)
-        self.interpreter.set_tensor(self.input_details[0]["index"], input_tensor)
-        self.interpreter.invoke()
-
-        classes = classify.get_classes(
-            self.interpreter, top_k=1, score_threshold=self.score_threshold
-        )
-
-        if not classes:
-            # No confident prediction
-            return None
-
-        c = classes[0]
-        self.history.append(c.id)
-
-        # Not enough history yet
-        if len(self.history) < self.history.maxlen:
-            return None
-
-        # Majority vote
-        counts: dict[int, int] = {}
-        for cid in self.history:
-            counts[cid] = counts.get(cid, 0) + 1
-
-        majority_class = max(counts, key=counts.get)
-        gesture = self._class_to_gesture(majority_class)
-
-        if gesture is None:
-            return None
-
-        # Only return if changed from last gesture
-        if gesture == self.last_gesture:
-            return None
-
-        self.last_gesture = gesture
-        self.logger.info(
-            "GestureEngine: majority gesture=%s (class_id=%d, label=%s)",
-            gesture,
-            majority_class,
-            self.labels.get(majority_class, "Unknown"),
-        )
+        gesture, _label = self._predict_frame(frame)
         return gesture
 
     def close(self) -> None:

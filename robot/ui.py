@@ -32,6 +32,17 @@ except ImportError:
     spec.loader.exec_module(lidar_widget_module)
     LiDARRadarWidget = lidar_widget_module.LiDARRadarWidget
 
+try:
+    from .gesture_widget import GesturePreviewWidget
+except ImportError:
+    gesture_widget_path = Path(__file__).with_name("gesture_widget.py")
+    spec = importlib.util.spec_from_file_location("gesture_widget_module", gesture_widget_path)
+    if spec is None or spec.loader is None:
+        raise RuntimeError(f"Could not load gesture widget module from {gesture_widget_path}")
+    gesture_widget_module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(gesture_widget_module)
+    GesturePreviewWidget = gesture_widget_module.GesturePreviewWidget
+
 if TYPE_CHECKING:
     import asyncio
 
@@ -81,6 +92,21 @@ class MainWindow(QMainWindow):
                 layout.setContentsMargins(0, 0, 0, 0)
             layout.addWidget(self.lidarView)
 
+        self.gestureTab = self.findChild(QWidget, "gesture")
+        self.gesturePlaceholder = self.findChild(QWidget, "gesture_widget")
+        self.gestureView = None
+        if self.gesturePlaceholder is not None:
+            self.gestureView = GesturePreviewWidget(robot=self.robot, parent=self.gesturePlaceholder)
+            layout = self.gesturePlaceholder.layout()
+            if layout is None:
+                layout = QVBoxLayout(self.gesturePlaceholder)
+                layout.setContentsMargins(0, 0, 0, 0)
+            layout.addWidget(self.gestureView)
+
+        self.tabWidget = self.findChild(QWidget, "tabWidget")
+        if self.tabWidget is not None:
+            self.tabWidget.currentChanged.connect(self._on_tab_changed)
+
         self.batteryBar = self._find_battery_bar()
         self.infoLabel = self.findChild(QLabel, "info")
 
@@ -89,6 +115,7 @@ class MainWindow(QMainWindow):
         self.telemetryTimer.timeout.connect(self.refresh_telemetry)
         self.telemetryTimer.start()
         self.refresh_telemetry()
+        self._update_gesture_view()
 
     def _find_battery_bar(self) -> QProgressBar | None:
         for name in ("battery", "batteryBar", "batteryProgressBar", "progressBar"):
@@ -128,6 +155,19 @@ class MainWindow(QMainWindow):
                 text = "Motion: Connected" if connected else "Motion: Disconnected"
 
             self.infoLabel.setText(text)
+
+    def _on_tab_changed(self, index: int):
+        self._update_gesture_view()
+
+    def _update_gesture_view(self):
+        if self.gestureView is None or self.tabWidget is None:
+            return
+
+        current = self.tabWidget.currentWidget()
+        if current is self.gestureTab:
+            self.gestureView.start()
+        else:
+            self.gestureView.stop()
 
     def set_mode_buttons_disabled(self, disabled: bool):
         for btn in self.modeSelect.findChildren(QPushButton):
@@ -190,6 +230,9 @@ class MainWindow(QMainWindow):
         print(event.type().name)
 
         # self.loop.create_task(self.on_close())
+
+        if self.gestureView is not None:
+            self.gestureView.stop()
 
         self.robot.stop()
 
