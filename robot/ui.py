@@ -56,6 +56,17 @@ class MainWindow(QMainWindow):
             border-image: url({bg_path.as_posix()}) 0 0 0 0 stretch stretch;
             }}
             """)
+        self.setStyleSheet("""
+        QPushButton#enableButton {
+        border-image: url(ui_images/final_idleState.png) 0 0 0 0 stretch stretch;
+        color: white;
+        border: none;
+        }
+
+        QPushButton#enableButton:pressed {
+        border-image: url(ui_images/final_pressedstate.png) 0 0 0 0 stretch stretch;
+        }
+        """)
 
         # Access the button from the UI file
         self.enableButton = self.findChild(QPushButton, "enableButton")
