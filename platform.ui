@@ -527,7 +527,7 @@ QTabBar::tab:selected {
 }</string>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>3</number>
     </property>
     <widget class="QWidget" name="control">
      <attribute name="title">
@@ -4122,6 +4122,10 @@ selection-background-color: rgb(141, 0, 0);
         <height>23</height>
        </rect>
       </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: rgb(21, 93, 1);
+color: rgb(255, 255, 255);</string>
+      </property>
       <property name="value">
        <number>56</number>
       </property>
@@ -4134,6 +4138,9 @@ selection-background-color: rgb(141, 0, 0);
         <width>701</width>
         <height>301</height>
        </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">color: rgb(255, 255, 255);</string>
       </property>
       <property name="text">
        <string>RamBOT Information:</string>
