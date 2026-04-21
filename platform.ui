@@ -537,7 +537,7 @@ QTabBar::tab:selected {
       <property name="geometry">
        <rect>
         <x>0</x>
-        <y>80</y>
+        <y>70</y>
         <width>751</width>
         <height>281</height>
        </rect>
@@ -695,12 +695,12 @@ QTabBar::tab:selected {
             </gradient>
            </brush>
           </colorrole>
-          <colorrole role="HighlightedText">
+          <colorrole role="Highlight">
            <brush brushstyle="SolidPattern">
             <color alpha="255">
-             <red>3</red>
-             <green>49</green>
-             <blue>0</blue>
+             <red>23</red>
+             <green>77</green>
+             <blue>13</blue>
             </color>
            </brush>
           </colorrole>
@@ -853,12 +853,12 @@ QTabBar::tab:selected {
             </gradient>
            </brush>
           </colorrole>
-          <colorrole role="HighlightedText">
+          <colorrole role="Highlight">
            <brush brushstyle="SolidPattern">
             <color alpha="255">
-             <red>3</red>
-             <green>49</green>
-             <blue>0</blue>
+             <red>23</red>
+             <green>77</green>
+             <blue>13</blue>
             </color>
            </brush>
           </colorrole>
@@ -1011,12 +1011,12 @@ QTabBar::tab:selected {
             </gradient>
            </brush>
           </colorrole>
-          <colorrole role="HighlightedText">
+          <colorrole role="Highlight">
            <brush brushstyle="SolidPattern">
             <color alpha="255">
-             <red>3</red>
-             <green>49</green>
-             <blue>0</blue>
+             <red>23</red>
+             <green>77</green>
+             <blue>13</blue>
             </color>
            </brush>
           </colorrole>
@@ -1034,8 +1034,9 @@ QTabBar::tab:selected {
        </property>
        <property name="styleSheet">
         <string notr="true">font: 12pt &quot;Fixedsys&quot;;
+selection-background-color: rgb(23, 77, 13);
 background-color: qlineargradient(spread:pad, x1:0, y1:1, x2:0, y2:0, stop:0.0947867 rgba(0, 0, 0, 255), stop:0.42654 rgba(68, 145, 17, 255), stop:0.597156 rgba(45, 163, 18, 255), stop:0.914692 rgba(0, 0, 0, 255));
-selection-color: rgb(3, 49, 0);</string>
+</string>
        </property>
        <property name="text">
         <string>WALK</string>
@@ -3067,10 +3068,10 @@ selection-color: rgb(3, 49, 0);</string>
          </colorrole>
          <colorrole role="Button">
           <brush brushstyle="SolidPattern">
-           <color alpha="0">
-            <red>0</red>
-            <green>0</green>
-            <blue>0</blue>
+           <color alpha="255">
+            <red>26</red>
+            <green>126</green>
+            <blue>3</blue>
            </color>
           </brush>
          </colorrole>
@@ -3139,19 +3140,19 @@ selection-color: rgb(3, 49, 0);</string>
          </colorrole>
          <colorrole role="Base">
           <brush brushstyle="SolidPattern">
-           <color alpha="0">
-            <red>0</red>
-            <green>0</green>
-            <blue>0</blue>
+           <color alpha="255">
+            <red>26</red>
+            <green>126</green>
+            <blue>3</blue>
            </color>
           </brush>
          </colorrole>
          <colorrole role="Window">
           <brush brushstyle="SolidPattern">
-           <color alpha="0">
-            <red>0</red>
-            <green>0</green>
-            <blue>0</blue>
+           <color alpha="255">
+            <red>26</red>
+            <green>126</green>
+            <blue>3</blue>
            </color>
           </brush>
          </colorrole>
@@ -3222,10 +3223,10 @@ selection-color: rgb(3, 49, 0);</string>
          </colorrole>
          <colorrole role="Button">
           <brush brushstyle="SolidPattern">
-           <color alpha="0">
-            <red>0</red>
-            <green>0</green>
-            <blue>0</blue>
+           <color alpha="255">
+            <red>26</red>
+            <green>126</green>
+            <blue>3</blue>
            </color>
           </brush>
          </colorrole>
@@ -3294,19 +3295,19 @@ selection-color: rgb(3, 49, 0);</string>
          </colorrole>
          <colorrole role="Base">
           <brush brushstyle="SolidPattern">
-           <color alpha="0">
-            <red>0</red>
-            <green>0</green>
-            <blue>0</blue>
+           <color alpha="255">
+            <red>26</red>
+            <green>126</green>
+            <blue>3</blue>
            </color>
           </brush>
          </colorrole>
          <colorrole role="Window">
           <brush brushstyle="SolidPattern">
-           <color alpha="0">
-            <red>0</red>
-            <green>0</green>
-            <blue>0</blue>
+           <color alpha="255">
+            <red>26</red>
+            <green>126</green>
+            <blue>3</blue>
            </color>
           </brush>
          </colorrole>
@@ -3377,10 +3378,10 @@ selection-color: rgb(3, 49, 0);</string>
          </colorrole>
          <colorrole role="Button">
           <brush brushstyle="SolidPattern">
-           <color alpha="0">
-            <red>0</red>
-            <green>0</green>
-            <blue>0</blue>
+           <color alpha="255">
+            <red>26</red>
+            <green>126</green>
+            <blue>3</blue>
            </color>
           </brush>
          </colorrole>
@@ -3449,19 +3450,19 @@ selection-color: rgb(3, 49, 0);</string>
          </colorrole>
          <colorrole role="Base">
           <brush brushstyle="SolidPattern">
-           <color alpha="0">
-            <red>0</red>
-            <green>0</green>
-            <blue>0</blue>
+           <color alpha="255">
+            <red>26</red>
+            <green>126</green>
+            <blue>3</blue>
            </color>
           </brush>
          </colorrole>
          <colorrole role="Window">
           <brush brushstyle="SolidPattern">
-           <color alpha="0">
-            <red>0</red>
-            <green>0</green>
-            <blue>0</blue>
+           <color alpha="255">
+            <red>26</red>
+            <green>126</green>
+            <blue>3</blue>
            </color>
           </brush>
          </colorrole>
@@ -3539,7 +3540,8 @@ selection-color: rgb(3, 49, 0);</string>
        <number>-1</number>
       </property>
       <property name="styleSheet">
-       <string notr="true">selection-background-color: rgb(13, 95, 0);</string>
+       <string notr="true">background-color: rgb(26, 126, 3);
+selection-background-color: rgb(13, 95, 0);</string>
       </property>
       <property name="text">
        <string>ENABLE</string>
@@ -3586,8 +3588,8 @@ selection-color: rgb(3, 49, 0);</string>
          </colorrole>
          <colorrole role="Button">
           <brush brushstyle="SolidPattern">
-           <color alpha="0">
-            <red>0</red>
+           <color alpha="255">
+            <red>165</red>
             <green>0</green>
             <blue>0</blue>
            </color>
@@ -3658,8 +3660,8 @@ selection-color: rgb(3, 49, 0);</string>
          </colorrole>
          <colorrole role="Base">
           <brush brushstyle="SolidPattern">
-           <color alpha="0">
-            <red>0</red>
+           <color alpha="255">
+            <red>165</red>
             <green>0</green>
             <blue>0</blue>
            </color>
@@ -3667,8 +3669,8 @@ selection-color: rgb(3, 49, 0);</string>
          </colorrole>
          <colorrole role="Window">
           <brush brushstyle="SolidPattern">
-           <color alpha="0">
-            <red>0</red>
+           <color alpha="255">
+            <red>165</red>
             <green>0</green>
             <blue>0</blue>
            </color>
@@ -3741,8 +3743,8 @@ selection-color: rgb(3, 49, 0);</string>
          </colorrole>
          <colorrole role="Button">
           <brush brushstyle="SolidPattern">
-           <color alpha="0">
-            <red>0</red>
+           <color alpha="255">
+            <red>165</red>
             <green>0</green>
             <blue>0</blue>
            </color>
@@ -3813,8 +3815,8 @@ selection-color: rgb(3, 49, 0);</string>
          </colorrole>
          <colorrole role="Base">
           <brush brushstyle="SolidPattern">
-           <color alpha="0">
-            <red>0</red>
+           <color alpha="255">
+            <red>165</red>
             <green>0</green>
             <blue>0</blue>
            </color>
@@ -3822,8 +3824,8 @@ selection-color: rgb(3, 49, 0);</string>
          </colorrole>
          <colorrole role="Window">
           <brush brushstyle="SolidPattern">
-           <color alpha="0">
-            <red>0</red>
+           <color alpha="255">
+            <red>165</red>
             <green>0</green>
             <blue>0</blue>
            </color>
@@ -3896,8 +3898,8 @@ selection-color: rgb(3, 49, 0);</string>
          </colorrole>
          <colorrole role="Button">
           <brush brushstyle="SolidPattern">
-           <color alpha="0">
-            <red>0</red>
+           <color alpha="255">
+            <red>165</red>
             <green>0</green>
             <blue>0</blue>
            </color>
@@ -3968,8 +3970,8 @@ selection-color: rgb(3, 49, 0);</string>
          </colorrole>
          <colorrole role="Base">
           <brush brushstyle="SolidPattern">
-           <color alpha="0">
-            <red>0</red>
+           <color alpha="255">
+            <red>165</red>
             <green>0</green>
             <blue>0</blue>
            </color>
@@ -3977,8 +3979,8 @@ selection-color: rgb(3, 49, 0);</string>
          </colorrole>
          <colorrole role="Window">
           <brush brushstyle="SolidPattern">
-           <color alpha="0">
-            <red>0</red>
+           <color alpha="255">
+            <red>165</red>
             <green>0</green>
             <blue>0</blue>
            </color>
@@ -4059,7 +4061,9 @@ selection-color: rgb(3, 49, 0);</string>
        <bool>false</bool>
       </property>
       <property name="styleSheet">
-       <string notr="true">selection-background-color: rgb(141, 0, 0);</string>
+       <string notr="true">background-color: rgb(165, 0, 0);
+selection-background-color: rgb(141, 0, 0);
+</string>
       </property>
       <property name="text">
        <string>DISABLE</string>
