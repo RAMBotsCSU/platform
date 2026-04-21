@@ -67,6 +67,30 @@ class MainWindow(QMainWindow):
         border-image: url(ui_images/final_pressedstate.png) 0 0 0 0 stretch stretch;
         }
         """)
+        self.setStyleSheet("""
+        QPushButton#disableButton {
+        border-image: url(ui_images/final_idleState.png) 0 0 0 0 stretch stretch;
+        color: white;
+        border: none;
+        }
+
+        QPushButton#enableButton:pressed {
+        border-image: url(ui_images/final_pressedstate.png) 0 0 0 0 stretch stretch;
+        }
+        """)
+
+        self.setStyleSheet("""
+        QGroupBox#modeSelect QPushButton {
+        border-image: url(ui_images/final_idleState.png) 0 0 0 0 stretch stretch;
+        color: white;
+        border: none;
+        }
+
+        QGroupBox#modeSelect QPushButton:pressed,
+        QGroupBox#modeSelect QPushButton:checked {
+        border-image: url(ui_images/final_pressedstate.png) 0 0 0 0 stretch stretch;
+        }
+        """)
 
         # Access the button from the UI file
         self.enableButton = self.findChild(QPushButton, "enableButton")
