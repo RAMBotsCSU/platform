@@ -24,12 +24,12 @@ class Sparky:
         self._executor = ThreadPoolExecutor(max_workers=3)
         self.lidar = None
         self.mode_to_face = {
-            "manual": Face.WALK,
-            "pushup": Face.X,
-            "dance": Face.SCROLL,
+            "manual": Face.OVAL,
+            "pushup": Face.RAGE,
+            "dance": Face.HAPPYL,
             "leg_testing": Face.OVAL,
-            "gesture": Face.HAPPY,
-            "leg_control": Face.WALK,
+            "gesture": Face.OVAL,
+            "leg_control": Face.OVAL,
         }
         self.audio_manager = AudioManager()
 

@@ -4,12 +4,13 @@ from serial.tools import list_ports
 class Face:
     OVAL = 'OVAL'
     X = 'X'
+    RAGE = 'RAGE'
     WALK = 'WALK'
     HAPPY = 'HAPPY'
     SCROLL = 'SCROLL'
     OFF = 'OFF'
     ser = serial.Serial()
-    EXPRESSIONS = [OVAL, X, WALK, HAPPY, SCROLL, OFF]
+    EXPRESSIONS = [OVAL, X, RAGE, WALK, HAPPY, SCROLL, OFF]
 
     BAUD_RATE   = 115200
 
