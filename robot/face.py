@@ -10,7 +10,7 @@ class Face:
     RAGE = 'RAGE'
     OFF = 'OFF'
     ser = serial.Serial()
-    EXPRESSIONS = [OVAL, X, WALK, HAPPY, SCROLL, OFF]
+    EXPRESSIONS = [OVAL, X, WALK, HAPPY, SCROLL, RAGE, OFF]
 
     BAUD_RATE   = 115200
 
