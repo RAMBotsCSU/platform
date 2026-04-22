@@ -12,7 +12,7 @@ aiopath = "*"
 flatbuffers = "*"
 aioserial = "*"
 odrive = "*"
-adafruit-circuitpython-rplidar = "*"
+adafruit-rplidar = "*"
 
 [dev-packages]
 matplotlib = "*"
