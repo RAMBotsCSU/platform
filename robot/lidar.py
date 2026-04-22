@@ -130,7 +130,7 @@ class LiDAR:
         print("LiDAR scanning thread started")
         sample_count = 0
         try:
-            for new_scan, quality, angle, distance in self.lidar.iter_measurments():
+            for new_scan, quality, angle, distance in self.lidar.iter_measurements():
                 if not self._running:
                     break
 

@@ -223,7 +223,7 @@ class MainWindow(QMainWindow):
 
         self = cls(robot)
         self.loop = QEventLoop(app)
-        self.show()
+        self.showMaximized()
 
         return self
 
