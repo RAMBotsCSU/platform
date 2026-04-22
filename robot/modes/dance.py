@@ -2,7 +2,7 @@ from robot.sparky import Sparky
 
 from .manual import ManualMode
 
-from face import Face
+from robot.face import Face
 
 face = Face()
 
