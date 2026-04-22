@@ -7,6 +7,7 @@ class Face:
     WALK = 'WALK'
     HAPPY = 'HAPPY'
     SCROLL = 'SCROLL'
+    RAGE = 'RAGE'
     OFF = 'OFF'
 
     BAUD_RATE   = 115200

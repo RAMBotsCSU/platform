@@ -21,12 +21,12 @@ class Sparky:
     def __init__(self) -> None:
         self._executor = ThreadPoolExecutor(max_workers=3)
         self.mode_to_face = {
-            "manual": Face.WALK,
-            "pushup": Face.X,
-            "dance": Face.SCROLL,
+            "manual": Face.OVAL,
+            "pushup": Face.RAGE,
+            "dance": Face.HAPPY,
             "leg_testing": Face.OVAL,
             "gesture": Face.HAPPY,
-            "leg_control": Face.WALK,
+            "leg_control": Face.OVAL,
         }
 
     async def __aenter__(self):
