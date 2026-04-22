@@ -26,7 +26,7 @@ class Sparky:
         self.mode_to_face = {
             "manual": Face.OVAL,
             "pushup": Face.RAGE,
-            "dance": Face.HAPPYL,
+            "dance": Face.HAPPY,
             "leg_testing": Face.OVAL,
             "gesture": Face.OVAL,
             "leg_control": Face.OVAL,
