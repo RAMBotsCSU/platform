@@ -5,7 +5,7 @@ import os
 
 class AudioManager:
     def __init__(self):
-        self.AUDIO_ENABLED = False
+        self.AUDIO_ENABLED = True
         self.audio_dict = {}
 
         if self.AUDIO_ENABLED:
